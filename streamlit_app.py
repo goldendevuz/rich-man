@@ -28,10 +28,10 @@ real_estate_min_price = 42500
 real_estate_income_rate_per_hour = 0.0158 # 1.58%
 
 # Exxes Kriptovalyuta doimiy ma'lumotlari
-exxes_min_price = 346050.00
-exxes_avg_price = 384500.00
-exxes_max_price = 422950.00
-exxes_percentage_deviation = 10 # ±10% Foizli og'ish
+# exxes_min_price = 346050.00
+# exxes_avg_price = 384500.00
+# exxes_max_price = 422950.00
+# exxes_percentage_deviation = 10 # ±10% Foizli og'ish
 
 # Dogecoin Kriptovalyuta doimiy ma'lumotlari
 dogecoin_min_price = 0.0273
@@ -52,11 +52,12 @@ st.write(f"- Average price: ${xonmobyil_avg_price:.2f}")
 st.write(f"- Maximum price: ${xonmobyil_max_price:.2f}")
 st.write(f"- Dividend yield (per 3 hours): {xonmobyil_dividend_rate_per_3_hours * 100:.2f}%")
 
-st.write(f"**Exxes Cryptocurrency Information:**")
-st.write(f"- Minimum price: ${exxes_min_price:,.2f}")
-st.write(f"- Average price: ${exxes_avg_price:,.2f}")
-st.write(f"- Maximum price: ${exxes_max_price:,.2f}")
-st.write(f"- Percentage deviation: ±{exxes_percentage_deviation:.0f}% (High volatility)")
+# Exxes Cryptocurrency Information kommentga olindi
+# st.write(f"**Exxes Cryptocurrency Information:**")
+# st.write(f"- Minimum price: ${exxes_min_price:,.2f}")
+# st.write(f"- Average price: ${exxes_avg_price:,.2f}")
+# st.write(f"- Maximum price: ${exxes_max_price:,.2f}")
+# st.write(f"- Percentage deviation: ±{exxes_percentage_deviation:.0f}% (High volatility)")
 
 st.write(f"**Dogecoin Cryptocurrency Information:**")
 st.write(f"- Minimum price: ${dogecoin_min_price:.4f}")
@@ -93,14 +94,15 @@ current_xonmobyil_price = st.number_input(
     format="%.2f"
 )
 
-current_exxes_price = st.number_input(
-    "Exxes Kriptovalyutasining joriy narxini kiriting ($)",
-    min_value=float(exxes_min_price),
-    max_value=float(exxes_max_price),
-    value=exxes_avg_price,
-    step=100.00,
-    format="%.2f"
-)
+# Exxes Kriptovalyutasini kiritish qismi kommentga olindi
+# current_exxes_price = st.number_input(
+#     "Exxes Kriptovalyutasining joriy narxini kiriting ($)",
+#     min_value=float(exxes_min_price),
+#     max_value=float(exxes_max_price),
+#     value=exxes_avg_price,
+#     step=100.00,
+#     format="%.2f"
+# )
 
 current_dogecoin_price = st.number_input(
     "Dogecoin Kriptovalyutasining joriy narxini kiriting ($)",
@@ -144,9 +146,10 @@ if current_adnd_price <= adnd_avg_price:
 elif current_xonmobyil_price <= xonmobyil_avg_price:
     st.success(f"✅ XonMobyil Aksiyasi o'rtacha narxdan (${xonmobyil_avg_price:.2f}) arzon yoki teng (${current_xonmobyil_price:.2f}). **XonMobyil Aksiyasini sotib oling!**")
     recommended_buy = "XonMobyil"
-elif current_exxes_price <= exxes_avg_price:
-    st.success(f"✅ Exxes Kriptovalyutasi o'rtacha narxdan (${exxes_avg_price:,.2f}) arzon yoki teng (${current_exxes_price:,.2f}). **Exxes Kriptovalyutasini sotib oling!**")
-    recommended_buy = "Exxes"
+# Exxes Kriptovalyutasini hisoblovchi qism kommentga olindi
+# elif current_exxes_price <= exxes_avg_price:
+#     st.success(f"✅ Exxes Kriptovalyutasi o'rtacha narxdan (${exxes_avg_price:,.2f}) arzon yoki teng (${current_exxes_price:,.2f}). **Exxes Kriptovalyutasini sotib oling!**")
+#     recommended_buy = "Exxes"
 elif current_dogecoin_price <= dogecoin_avg_price:
     st.success(f"✅ Dogecoin Kriptovalyutasi o'rtacha narxdan (${dogecoin_avg_price:.2f}) arzon yoki teng (${current_dogecoin_price:.2f}). **Dogecoinni sotib oling!**")
     recommended_buy = "Dogecoin"
@@ -204,21 +207,24 @@ with col2: # XonMobyil uchun ustun
 
 
 with col3: # Exxes uchun ustun
-    st.subheader("Exxes Kriptovalyuta")
-    st.write(f"**Tavsiya etilgan sotib olish oralig'i:** ${exxes_min_price:,.2f} dan ${exxes_avg_price:,.2f} gacha")
+    # st.subheader("Exxes Kriptovalyuta")
+    # st.write(f"**Tavsiya etilgan sotib olish oralig'i:** ${exxes_min_price:,.2f} dan ${exxes_avg_price:,.2f} gacha")
 
-    if recommended_buy == "Exxes":
-        st.success(f"✅ Joriy narx (${current_exxes_price:,.2f}) tavsiya etilgan sotib olish oralig'ida.")
-        actual_exxes_buy_price = current_exxes_price
-        if actual_exxes_buy_price > 0:
-            num_exxes_units = investment_amount / actual_exxes_buy_price
-            st.metric("Sotib olinadigan Exxes soni (taxminan)", f"{num_exxes_units:,.2f}")
-            target_sell_price_exxes = actual_exxes_buy_price * 1.10
-            st.metric("Maqsadli sotish narxi (+10% foyda)", f"${target_sell_price_exxes:,.2f}")
-        else:
-            st.error("Exxes sotib olish narxi nol bo'lmasligi kerak.")
-    else:
-        st.info(f"⚠️ Joriy narx (${current_exxes_price:,.2f}) yuqori yoki boshqa aktivlar tavsiya etilgan.")
+    # if recommended_buy == "Exxes":
+    #     st.success(f"✅ Joriy narx (${current_exxes_price:,.2f}) tavsiya etilgan sotib olish oralig'ida.")
+    #     actual_exxes_buy_price = current_exxes_price
+    #     if actual_exxes_buy_price > 0:
+    #         num_exxes_units = investment_amount / actual_exxes_buy_price
+    #         st.metric("Sotib olinadigan Exxes soni (taxminan)", f"{num_exxes_units:,.2f}")
+    #         target_sell_price_exxes = actual_exxes_buy_price * 1.10
+    #         st.metric("Maqsadli sotish narxi (+10% foyda)", f"${target_sell_price_exxes:,.2f}")
+    #     else:
+    #         st.error("Exxes sotib olish narxi nol bo'lmasligi kerak.")
+    # else:
+    #     st.info(f"⚠️ Joriy narx (${current_exxes_price:,.2f}) yuqori yoki boshqa aktivlar tavsiya etilgan.")
+    st.subheader("Exxes Kriptovalyuta")
+    st.info("Bu bo'lim foydalanuvchi talabiga binoan vaqtincha faoliyatini to'xtatgan.")
+
 
 with col4: # Dogecoin uchun ustun
     st.subheader("Dogecoin Kriptovalyuta")
@@ -359,11 +365,12 @@ chart = alt.Chart(df_simulation.melt('Soat', value_name='Qiymat', var_name='Inve
 st.altair_chart(chart, use_container_width=True)
 
 # Kriptovalyutalarning potentsial foydasi
-total_potential_exxes_profit = 0
-if current_exxes_price > 0:
-    num_exxes_units_for_summary = investment_amount / current_exxes_price
-    potential_profit_per_unit_summary = exxes_max_price - current_exxes_price
-    total_potential_exxes_profit = num_exxes_units_for_summary * potential_profit_per_unit_summary
+# Exxes hisob-kitobi kommentga olindi
+# total_potential_exxes_profit = 0
+# if current_exxes_price > 0:
+#     num_exxes_units_for_summary = investment_amount / current_exxes_price
+#     potential_profit_per_unit_summary = exxes_max_price - current_exxes_price
+#     total_potential_exxes_profit = num_exxes_units_for_summary * potential_profit_per_unit_summary
 
 total_potential_dogecoin_profit = 0
 if current_dogecoin_price > 0:
@@ -379,7 +386,6 @@ st.markdown(f"""
 
 **Kriptovalyutalar bo'yicha qo'shimcha eslatma:**
 - Yuqoridagi grafik doimiy daromadli aktivlarni ko'rsatadi. Kriptovalyutalarning daromadi esa narx o'zgarishlariga bog'liq bo'lib, bir martalik savdo siklidan olinadi.
-- **Bir Exxes savdo siklidan kutilayotgan potentsial foyda (joriy narxda sotib olib, maksimal narxda sotilganda):** ${total_potential_exxes_profit:,.2f} (Sizning ${investment_amount:,.2f} sarmoyangiz uchun)
 - **Bir Dogecoin savdo siklidan kutilayotgan potentsial foyda (joriy narxda sotib olib, maksimal narxda sotilganda):** ${total_potential_dogecoin_profit:,.2f} (Sizning ${investment_amount:,.2f} sarmoyangiz uchun)
 
 **Eslatma:** Bu simulyatsiya narx tebranishlarini hisobga olmaydi, faqat dividend/ijara daromadini ko'rsatadi. Haqiqiy o'yinda narxlar o'zgarishi mumkin.
