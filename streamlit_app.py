@@ -140,10 +140,27 @@ col1, col2, col3, col4, col5 = st.columns(5)
 
 # Yangi strategiya logikasi
 st.subheader("Hozirgi bozor sharoitida investitsiya tavsiyasi:")
-if current_adnd_price <= adnd_avg_price:
+
+# Aktsiyalar uchun joriy narxning maksimal narxga nisbati
+adnd_price_from_max_percentage = (current_adnd_price / adnd_max_price) * 100
+xonmobyil_price_from_max_percentage = (current_xonmobyil_price / xonmobyil_max_price) * 100
+
+recommended_buy = "None"
+# Ikkala aksiya uchun ham sotib olish shartlarini tekshirish
+is_adnd_good_buy = current_adnd_price <= adnd_avg_price
+is_xonmobyil_good_buy = current_xonmobyil_price <= xonmobyil_avg_price
+
+if is_adnd_good_buy and is_xonmobyil_good_buy:
+    if adnd_price_from_max_percentage < xonmobyil_price_from_max_percentage:
+        st.success(f"✅ AD&D Aksiyasi maksimal narxdan eng past foizda (${adnd_price_from_max_percentage:.2f}%) va o'rtacha narxdan past. **AD&D Aksiyasini sotib oling!**")
+        recommended_buy = "AD&D"
+    else:
+        st.success(f"✅ XonMobyil Aksiyasi maksimal narxdan eng past foizda (${xonmobyil_price_from_max_percentage:.2f}%) va o'rtacha narxdan past. **XonMobyil Aksiyasini sotib oling!**")
+        recommended_buy = "XonMobyil"
+elif is_adnd_good_buy:
     st.success(f"✅ AD&D Aksiyasi o'rtacha narxdan (${adnd_avg_price:.2f}) arzon yoki teng (${current_adnd_price:.2f}). **AD&D Aksiyasini sotib oling!**")
     recommended_buy = "AD&D"
-elif current_xonmobyil_price <= xonmobyil_avg_price:
+elif is_xonmobyil_good_buy:
     st.success(f"✅ XonMobyil Aksiyasi o'rtacha narxdan (${xonmobyil_avg_price:.2f}) arzon yoki teng (${current_xonmobyil_price:.2f}). **XonMobyil Aksiyasini sotib oling!**")
     recommended_buy = "XonMobyil"
 # Exxes Kriptovalyutasini hisoblovchi qism kommentga olindi
@@ -166,6 +183,7 @@ with col1: # AD&D uchun ustun
     buy_price_upper_bound = adnd_avg_price
 
     st.write(f"**Tavsiya etilgan sotib olish oralig'i:** ${buy_price_lower_bound:.2f} dan ${buy_price_upper_bound:.2f} gacha")
+    st.metric("Maksimal narxdan foizi:", f"{adnd_price_from_max_percentage:.2f}%")
 
     if recommended_buy == "AD&D":
         st.success(f"✅ Joriy narx (${current_adnd_price:.2f}) tavsiya etilgan sotib olish oralig'ida.")
@@ -189,6 +207,7 @@ with col2: # XonMobyil uchun ustun
     buy_price_upper_bound = xonmobyil_avg_price
 
     st.write(f"**Tavsiya etilgan sotib olish oralig'i:** ${buy_price_lower_bound:.2f} dan ${buy_price_upper_bound:.2f} gacha")
+    st.metric("Maksimal narxdan foizi:", f"{xonmobyil_price_from_max_percentage:.2f}%")
 
     if recommended_buy == "XonMobyil":
         st.success(f"✅ Joriy narx (${current_xonmobyil_price:.2f}) tavsiya etilgan sotib olish oralig'ida.")
